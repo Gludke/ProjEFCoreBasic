@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace CursoEFCore.Domain
 {
     public class PedidoItem
@@ -8,7 +10,9 @@ namespace CursoEFCore.Domain
         public int ProdutoId { get; set; }
         public Produto Produto { get; set; }
         public int Quantidade { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Valor { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Desconto { get; set; }
     }
 }

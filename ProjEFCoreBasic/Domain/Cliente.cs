@@ -1,9 +1,6 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace CursoEFCore.Domain
 {
-    [Table("Clientes")]
+    //[Table("Clientes")] - define o nome da table do DB
     public class Cliente
     {
         public int Id { get; set; }
