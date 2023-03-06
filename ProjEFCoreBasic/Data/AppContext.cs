@@ -35,13 +35,42 @@ namespace ProjEFCoreBasic.Data
 
             modelBuilder.Entity<Produto>(b =>
             {
-                //b.ToTable("Produtos");
                 b.HasKey(p => p.Id);
                 b.Property(p => p.CodigoBarras).HasColumnType("VARCHAR(14)").IsRequired();
                 b.Property(p => p.Descricao).HasColumnType("VARCHAR(60)");
                 b.Property(p => p.Valor).IsRequired();
+                //'HasConversion' define que essa coluna será do tipo 'string' e grava o nome do Enum ao invés do número dele
                 b.Property(p => p.TipoProduto).HasConversion<string>();
+
+                //não precisa preencher a multiplicidade, pois o ICollection dele não foi adicionado
             });
+
+            modelBuilder.Entity<Pedido>(b =>
+            {
+                b.HasKey(p => p.Id);
+                //'GETDATE' preenche com a data atual na criação do objeto
+                b.Property(p => p.IniciadoEm).HasDefaultValueSql("GETDATE()").ValueGeneratedOnAdd();
+                b.Property(p => p.Status).HasConversion<string>();//grava o nome do Enum
+                b.Property(p => p.TipoFrete).HasConversion<int>();//grava o número do Enum
+                b.Property(p => p.Observacao).HasColumnType("VARCHAR(512)");
+
+                //1 Pedido x N PedidoItem(Itens)
+                b.HasMany(p => p.Itens)
+                    .WithOne(p => p.Pedido)
+                    .OnDelete(DeleteBehavior.Cascade);//Ao deletar um Pedido, deletará todos os 'PedidoItem' dele em cascata
+                //.OnDelete(DeleteBehavior.SetNull); -> Os 'ItemPedido' não são removidos do DB ao remover um 'pedido', porém
+                //é necessário setar como NULL o 'PedidoId' do obejeto 'PedidoItem'
+            });
+
+            modelBuilder.Entity<PedidoItem>(b =>
+            {
+                b.HasKey(p => p.Id);
+                //define valor 1 caso eu não defina a quantidade na criação do objeto
+                b.Property(p => p.Quantidade).HasDefaultValue(1).IsRequired();
+                b.Property(p => p.Valor).HasDefaultValue(0).IsRequired();
+                b.Property(p => p.Desconto).HasDefaultValue(0).IsRequired();
+            });
+
         }
     }
 }
