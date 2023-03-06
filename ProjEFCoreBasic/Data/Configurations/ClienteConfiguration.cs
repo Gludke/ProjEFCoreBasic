@@ -18,6 +18,10 @@ namespace ProjEFCoreBasic.Data.Configurations
             b.Property(p => p.Cidade).HasMaxLength(60).IsRequired();
             //Cria a coluna do telefone como índice: serve para melhorar muito o desempenho dessa coluna como chave de consultas 
             b.HasIndex(i => i.Telefone).HasName("idx_cliente_telefone");
+
+            b.HasMany(c => c.Pedidos)
+                .WithOne(p => p.Cliente)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

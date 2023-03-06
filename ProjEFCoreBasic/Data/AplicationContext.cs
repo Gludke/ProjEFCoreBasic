@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ProjEFCoreBasic.Data
 {
-    public class AppContext : DbContext
+    public class AplicationContext : DbContext
     {
         //Criando as tabelas do DB
         public DbSet<Pedido> Pedido { get; set; }
@@ -23,7 +23,7 @@ namespace ProjEFCoreBasic.Data
             //busca por todas as classes que implementam a interface "IEntityTypeConfiguration<T>" na mesma 'Assembly' do DbContext.
             //"ApplyConfigurationsFromAssembly" é usado para aplicar as configurações de mapeamento de todas as entidades
             //do modelo definido em classes de configuração separadas em uma única chamada de método.
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AplicationContext).Assembly);
         }
     }
 }
