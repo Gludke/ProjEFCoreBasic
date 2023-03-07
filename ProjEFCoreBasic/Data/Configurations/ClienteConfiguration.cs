@@ -16,6 +16,7 @@ namespace ProjEFCoreBasic.Data.Configurations
             b.Property(p => p.CEP).HasColumnType("CHAR(8)").IsRequired();
             b.Property(p => p.Estado).HasColumnType("CHAR(2)").IsRequired();
             b.Property(p => p.Cidade).HasMaxLength(60).IsRequired();
+            b.Property(c => c.Email).HasColumnType("VARCHAR(80)").IsRequired(false);
             //Cria a coluna do telefone como índice: serve para melhorar muito o desempenho dessa coluna como chave de consultas 
             b.HasIndex(i => i.Telefone).HasName("idx_cliente_telefone");
 
